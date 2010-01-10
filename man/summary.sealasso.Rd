@@ -22,7 +22,7 @@
 }
 
 \references{
-  Qian, W. and Yang, Y. (2010) "Model Selection via Standard Error Adjusted Adaptive Lasso." Annals of the Institute of Statistical Mathematics, 65, 295-318.  
+  Qian, W. and Yang, Y. (2010) "Model Selection via Standard Error Adjusted Adaptive Lasso." Technical Report, University of Minnesota. 
 }
  
 \author{

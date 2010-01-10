@@ -1,0 +1,7 @@
+CHANGELOG - Record of Changes for sealasso
+
+0.1-2:
+* migrate vignette .Rnw file to the 'vignettes' directory
+
+0.1-1:
+* Initial release.

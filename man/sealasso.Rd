@@ -13,7 +13,7 @@ sealasso(x, y, method = c("nsealasso", "sealasso", "olsalasso", "lasso"))
   \item{method}{One of "nsealasso", "sealasso", "olsalasso" and "lasso", which represent NSEA-lasso, SEA-lasso, OLS-adaptive lasso and the lasso, respectively. The default is "nsealasso".}
 }
 \details{
-  SEA-lasso and NSEA-lasso (Qian and Yang, 2012) are two versions of the adaptive lasso. They may be used for variable selection, especially in cases where condition index of the scaled model matrix is large (e.g. > 10) and collinearity is a concern. This function provides condition index, solution path and the suggested optimal model based on BIC. The estimated coefficients are also given for transition points of the path. 
+  SEA-lasso and NSEA-lasso (Qian and Yang, 2010) are two versions of the adaptive lasso. They may be used for variable selection, especially in cases where condition index of the scaled model matrix is large (e.g. > 10) and collinearity is a concern. This function provides condition index, solution path and the suggested optimal model based on BIC. The estimated coefficients are also given for transition points of the path. 
 }
 
 \value{
@@ -25,7 +25,7 @@ sealasso(x, y, method = c("nsealasso", "sealasso", "olsalasso", "lasso"))
 }
 
 \references{
-  Qian, W. and Yang, Y. (2012) "Model Selection via Standard Error Adjusted Adaptive Lasso." Annals of the Institute of Statistical Mathematics, 65, 295-318. 
+  Qian, W. and Yang, Y. (2010) "Model Selection via Standard Error Adjusted Adaptive Lasso." Technical Report, University of Minnesota. 
 }
  
 \author{
