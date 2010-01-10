@@ -1,0 +1,91 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{natbib,anysize}
+\marginsize{2.5cm}{2.5cm}{2.5cm}{2.5cm}
+
+\renewcommand{\today}{\begingroup
+\number \day\space  \ifcase \month \or January\or February\or March\or 
+April\or May\or June\or July\or August\or September\or October\or 
+November\or December\fi 
+\space  \number \year \endgroup}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Change this for a different vignette
+%\VignetteIndexEntry{feature} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\title{sealasso: an R package for Standard Error Adjusted Adaptive Lasso (SEA-lasso)}
+\author{Wei Qian}
+
+
+
+%\SweaveOpts{}
+\begin{document}
+
+
+\maketitle
+
+\section{Introduction}
+The adaptive lasso \citep*{zou06} is a variable selection method that enjoys the oracle property (consistency in variable selection and asymptotic normality in coefficient estimation). It is now known that the weight applied to the $l_1$ penalty term of the adaptive lasso under linear regression settings can significantly influence its variable selection performance. \citet*{qianyang10} proposed two versions of the adaptive lasso named SEA-lasso and NSEA-lasso that incorporate the OLS-standard errors to the $l_1$ penalty term. It is shown that they outperform the usually used weight with OLS estimate only (we call the latter weight selection method OLS-adaptive lasso), especially when the condition index of the model matrix is large. 
+
+In practice, it is advisable that NSEA-lasso is used when the condition index  is greater than 10 (more specifically, the condition index is defined as the natural logarithm of the ratio of the largest eigenvalue to the smallest eigenvalue for the matrix $X^TX$, where $X$ is the scaled predictor matrix). In fact, NSEA-lasso is the default method in \texttt{sealasso} package. It should be pointed out that this package applies only to linear regression setting, and the number of predictors must be greater than 1 and less than the sample size. The rest of this vignette will use \texttt{diabetes} data example to introduce the two functions \texttt{sealasso} and \texttt{summary} provided in this package.
+
+\section{Diabetes data example}
+The \texttt{sealasso} package depends upon \texttt{lars} package, which can provide the lasso solution path by LARS algorithm \citep*{efronetal04}. The \texttt{diabetes} dataset contained in \texttt{lars} package has one response and ten baseline predictors measured on 442 diabetes
+patients. These baseline predictors include age, sex, body mass index (bmi),
+average blood pressure (bp) and six blood serum measurements (tc, ldl,
+hdl, tch, ltg, glu). 
+
+To begin with, we only consider the main effects, and intend to find important terms from these ten predictors. With SEA-lasso method, we can obtain the following output for the predictor matrix \texttt{x} and the response vector \texttt{y}.
+<<>>=
+library(sealasso)
+data(diabetes)      # use the diabetes dataset from "lars" package
+x <- diabetes$x
+y <- diabetes$y
+sealasso(x, y, method = "sealasso")
+@
+From the output above, we can find the weight selection method used, weight vector for the $l_1$ penalty term, the condition index, the solution path (with estimated degree of freedom and BIC values at the transition points), estimated coefficients at the transition points, and the optimal model selected by BIC. If we want to change the method to be NSEA-lasso, OLS-adaptive lasso or the lasso, simply replace \texttt{"sealasso"} with \texttt{"nsealasso"}, \texttt{"olsalasso"}, and \texttt{"lasso"}, respectively. Also note that the leading number under the name \texttt{optim.beta} is the step number of the optimal model in the solution path.
+
+A \texttt{summary} function is available to print out a more succinct output, which includes only the weight selection method used, the condition index and the optimal model. Again, we use the \texttt{diabetes} dataset as an example. Besides the main effect predictors, we can also include the quadratic terms and interaction terms to generate an expanded predictor
+matrix \texttt{x2}. This expanded predictor matrix contains 64 predictors, including
+10 baseline predictors, 45 interactions and 9 squares. The square term
+of sex is not included because it is a dichotomous
+variable. The \texttt{summary} output for the default NSEA-lasso method and the expanded matrix \texttt{x2} is shown as follows.
+<<interaction_effect>>=
+# with quadratic terms
+x2 <- cbind(diabetes$x1,diabetes$x2)
+object <- sealasso(x2, y)
+summary(object)
+@
+As a last note, we should point out that \texttt{sealasso} function automatically standardizes the model matrix so that for each column vector, the mean is 0 and $l_2$ norm is $\sqrt{n}$ before applying the corresponding adaptive lasso method, while the estimated coefficients are transformed back to the original scale for the output. Therefore, in practice, we do not need to standardize the model matrix for using \texttt{sealasso} function.
+
+
+\bibliographystyle{apalike}
+
+%\bibliography{/c/tduong/home/research/references}
+
+\begin{thebibliography}{}
+
+\bibitem[Efron et~al., 2004]{efronetal04}
+Efron, B., Hastie, T., Johnstone, I. and Tibshirani, R. (2004).
+\newblock Least angle regression.
+\newblock {\em The Annals of Statistics}, 32, 407-499.
+
+\bibitem[Qian and Yang, 2012]{qianyang10}
+Qian, W. and Yang, Y. (2012).
+\newblock Variable Selection via Standard Error Adjusted Adaptive Lasso.
+\newblock {\em Annals of the Institute of Statistical Mathematics}, 65, 295-318.
+
+\bibitem[Zou, 2006]{zou06}
+Zou, H. (2006).
+\newblock The adaptive lasso and its oracle properties.
+\newblock {\em Journal of the American Statistical Association}, 101, 4225--4242.
+
+
+
+\end{thebibliography}
+
+ 
+\end{document}

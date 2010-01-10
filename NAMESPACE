@@ -1,0 +1,4 @@
+
+export(sealasso)
+
+S3method(summary, sealasso)
