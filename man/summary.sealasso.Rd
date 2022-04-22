@@ -25,9 +25,6 @@
   Qian, W. and Yang, Y. (2010) "Model Selection via Standard Error Adjusted Adaptive Lasso." Technical Report, University of Minnesota. 
 }
  
-\author{
-  Wei Qian \email{<weiqian@stat.umn.edu>}
-}
 
 \seealso{sealasso}
 

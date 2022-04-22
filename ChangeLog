@@ -1,5 +1,8 @@
 CHANGELOG - Record of Changes for sealasso
 
+0.1-3:
+* update NAMESPACE
+
 0.1-2:
 * migrate vignette .Rnw file to the 'vignettes' directory
 
